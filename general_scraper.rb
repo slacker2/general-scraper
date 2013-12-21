@@ -19,38 +19,38 @@ def get_and_write_job_data
 end
 
 def request_ids_and_write_to_file(ids)
-  file = File.open('response.txt','a+')
+  file = File.open('response.txt', 'a+')
   uri = make_uri(ids)
-  response = open(uri, :allow_redirections => :safe)
+  response = open(uri, allow_redirections: :safe)
   file.write(response.read)
   file.close
 end
 
 def get_targeted_data_from_html(r)
-  tags = r.css('div.target').map do |t| 
-    t.text.split("\n").reject { |e| e.empty? }}
+  tags = r.css('div.target').map do |t|
+    t.text.split("\n").reject { |e| e.empty? }
   end
 
-  targeted_data = tags.map do |t| 
-    if t[2].nil? 
-       t[1].split('separator').map(&:strip).flatten
+  tags.map do |t|
+    if t[2].nil?
+      t[1].split('separator').map(&:strip).flatten
     else
-       t[2].split('seperator').map(&:strip).flatten
+      t[2].split('seperator').map(&:strip).flatten
     end
   end
 end
 
 def count_targeted_data(targeted_data)
-  targeted_data.each do |tag| 
+  targeted_data.each do |tag|
     tag_counts[tag] ||= 0
-    tag_counts[tag] = tag_counts[tag] + 1 }
+    tag_counts[tag] = tag_counts[tag] + 1
   end
   tag_counts.sort_by { |k, v| -v }
 end
 
 def write_hash_to_file(hash, file)
   f = File.open(file, 'ab+')
-  hash.each { |k, v| hash.write("#{k}: #{v}\n") }
+  hash.each { |k, v| f.write("#{k}: #{v}\n") }
 end
 
 def main
