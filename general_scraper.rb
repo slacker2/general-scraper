@@ -1,12 +1,12 @@
 require 'net/http'
 require 'nokogiri'
-require 'open-uri'
-require 'open_uri_redirections'
+require 'open-url'
+require 'open_url_redirections'
 
-def make_uri(ids)
-  uri = 'http://example.com/path/to/target?'
-  ids.each { |id| uri << id }
-  uri << 'extra'
+def make_url(ids)
+  url = 'http://example.com/path/to/target?'
+  ids.each { |id| url << id }
+  url << 'extra'
 end
 
 def get_ids
@@ -20,8 +20,8 @@ end
 
 def request_ids_and_write_to_file(ids)
   file = File.open('response.txt', 'a+')
-  uri = make_uri(ids)
-  response = open(uri, allow_redirections: :safe)
+  url = make_url(ids)
+  response = open(url, allow_redirections: :safe)
   file.write(response.read)
   file.close
 end
