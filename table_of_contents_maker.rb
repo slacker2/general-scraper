@@ -10,12 +10,13 @@ def main
   n = Nokogiri::HTML(source_html.read)
   anchor_tags = n.css('div#wiki-content a.anchor')
   index = build_index_for_anchor_tags(anchor_tags)
+  puts index
 end
 
 def build_index_for_anchor_tags(anchor_tags)
   index = ''
   anchor_tags.each { |anchor_tag| index = index + make_li(anchor_tag) }
-  puts index
+  return index
 end
 
 def make_li(anchor)
